@@ -14,13 +14,14 @@ namespace Day1
             IEnumerable<int> values = File.ReadAllLines(inputFile).Select(line => int.Parse(line));
 
             // Get the two numbers that add up to 2020
-            Console.WriteLine("Part 1: " + Solve(values, 2, 2020));
+            Console.WriteLine("Part 1: {0}", Solve(values, 2, 2020));
 
             // Get the three numbers that add up to 2020
-            Console.WriteLine("Part 2: " + Solve(values, 3, 2020));
+            Console.WriteLine("Part 2: {0}", Solve(values, 3, 2020));
         }
 
-        static int Solve(IEnumerable<int> ints, int howManyIntsToSum, int requiredSum) {
+        static int Solve(IEnumerable<int> ints, int howManyIntsToSum, int requiredSum)
+        {
             if (howManyIntsToSum == 0 || !ints.Any()) return 0;
             var head = ints.First();
             var tail = ints.Skip(1);
