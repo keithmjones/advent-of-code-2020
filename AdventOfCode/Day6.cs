@@ -14,13 +14,13 @@ namespace AdventOfCode
             data = File.ReadAllLines(inputFile);
         }
 
-        public int SolvePart1() => SolvePart1(data.ToArray());
+        public int SolvePart1() => SolvePart1(data);
 
-        public int SolvePart2() => SolvePart2(data.ToArray());
+        public int SolvePart2() => SolvePart2(data);
 
-        public int SolvePart1(string[] input) => Arrays.Collate(input, " ").Select(CountUniqueCharsExcludingSpaces).Sum();
+        public int SolvePart1(IEnumerable<string> input) => Records.Collate(input, " ").Select(CountUniqueCharsExcludingSpaces).Sum();
 
-        public int SolvePart2(string[] input) => Arrays.Collate(input, " ").Select(CountCommonCharsInEachSequence).Sum();
+        public int SolvePart2(IEnumerable<string> input) => Records.Collate(input, " ").Select(CountCommonCharsInEachSequence).Sum();
 
         public int CountUniqueCharsExcludingSpaces(string value) => value.Where(chr => chr != ' ').Distinct().Count();
 

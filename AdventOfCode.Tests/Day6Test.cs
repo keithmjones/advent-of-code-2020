@@ -7,11 +7,20 @@ namespace AdventOfCode.Tests
     {
         [Theory]
         [InlineData(
+            new string[] { "abc", "", "a", "b", "c", "", "ab", "ac", "", "a", "a", "a", "a", "", "b" },
+            new string[] { "abc", "a b c", "ab ac", "a a a a", "b" })]
+        [InlineData(
+            new string[] { "", "abc", "", "a", "b", "c", "", "ab", "ac", "", "a", "a", "a", "a", "", "b" },
+            new string[] { "abc", "a b c", "ab ac", "a a a a", "b" })]
+        [InlineData(
             new string[] { "abc", "", "a", "b", "c", "", "ab", "ac", "", "a", "a", "a", "a", "", "b", "" },
+            new string[] { "abc", "a b c", "ab ac", "a a a a", "b" })]
+        [InlineData(
+            new string[] { "abc", "", "a", "b", "c", "", "ab", "ac", "", "", "a", "a", "a", "a", "", "b", "" },
             new string[] { "abc", "a b c", "ab ac", "a a a a", "b" })]
         public void CanCollate(string[] input, string[] expected)
         {
-            var result = Arrays.Collate(input, " ");
+            var result = Records.Collate(input, " ");
             Assert.Equal(expected, result);
         }
 
@@ -29,7 +38,6 @@ namespace AdventOfCode.Tests
         }
 
         [Theory]
-        [InlineData(new string[] { "abc", "", "a", "b", "c", "", "ab", "ac", "", "a", "a", "a", "a", "", "b", "" }, 11)]
         [InlineData(new string[] { "abc", "", "a", "b", "c", "", "ab", "ac", "", "a", "a", "a", "a", "", "b" }, 11)]
         public void CanSolvePart1(string[] input, int expected)
         {
@@ -39,7 +47,6 @@ namespace AdventOfCode.Tests
         }
 
         [Theory]
-        [InlineData(new string[] { "abc", "", "a", "b", "c", "", "ab", "ac", "", "a", "a", "a", "a", "", "b", "" }, 6)]
         [InlineData(new string[] { "abc", "", "a", "b", "c", "", "ab", "ac", "", "a", "a", "a", "a", "", "b" }, 6)]
         public void CanSolvePart2(string[] input, int expected)
         {
