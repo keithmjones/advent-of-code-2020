@@ -23,15 +23,16 @@ namespace CLI
                 Console.Error.WriteLine("Day number must be between 1 and 25");
                 Environment.Exit(1);
             }
+            Day day = DayClass.NewDay(dayNumber);
+            if (day == null) {
+                Console.WriteLine("No solution found.");
+                Environment.Exit(3);
+            }
             string path = $"data/day/{dayNumber}/{filename}.txt";
             if (!File.Exists(path))
             {
                 Console.Error.WriteLine("File '{0}' does not exist.", path);
                 Environment.Exit(2);
-            }
-            Day day = DayClass.NewDay(dayNumber);
-            if (day == null) {
-                Console.WriteLine("No solution found.");
             }
             else
             {

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 
 namespace AdventOfCode
 {
@@ -21,13 +20,7 @@ namespace AdventOfCode
                 Console.Error.WriteLine("Day {0} has not been implemented yet.", day);
                 return null;
             }
-            ConstructorInfo ctor = type.GetConstructor(new Type[] {});
-            if (ctor == null)
-            {
-                Console.Error.WriteLine("Day {1} does not have an accessible default constructor.", day);
-                return null;
-            }
-            return (Day) ctor.Invoke(new object[] {});
+            return (Day) Activator.CreateInstance(type);
         }
     }
 }
