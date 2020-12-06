@@ -18,18 +18,18 @@ namespace AdventOfCode
         public int SolvePart1()
         {
             // Validate passwords based on character counts
-            return Solve(lines, typeof(CountCharsPasswordRule));
+            return Solve<CountCharsPasswordRule>(lines);
         }
 
         public int SolvePart2()
         {
             // Validate passwords based on exactly one character match in given positions
-            return Solve(lines, typeof(PositionCharsPasswordRule));
+            return Solve<PositionCharsPasswordRule>(lines);
         }
 
-        public int Solve(IEnumerable<string> passwords, Type ruleType)
+        public int Solve<TRule>(IEnumerable<string> passwords) where TRule : IPasswordRule
         {
-            return passwords.Select(password => PasswordWithRule.Parse(password, ruleType))
+            return passwords.Select(password => PasswordWithRule.Parse<TRule>(password))
                             .Where(password => password.IsValid())
                             .Count();
         }

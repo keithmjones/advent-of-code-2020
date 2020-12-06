@@ -16,14 +16,8 @@ namespace AdventOfCode
             return Rule.IsValidPassword(Password);
         }
 
-        public static PasswordWithRule Parse(string line, Type ruleType)
+        public static PasswordWithRule Parse<TRule>(string line) where TRule : IPasswordRule
         {
-            // Check that ruleType is an IPasswordRule
-            if (!typeof(IPasswordRule).IsAssignableFrom(ruleType))
-            {
-                throw new Exception("{0} is not an IPasswordRule");
-            }
-
             // Parse arguments
             Regex rx = new Regex(@"(\d+)[-](\d+) (.)[:] (.+)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
             GroupCollection groups = rx.Matches(line)[0].Groups;
@@ -33,6 +27,7 @@ namespace AdventOfCode
             string pass = groups[4].Value;
 
             // Turn into a PasswordWithRule
+            Type ruleType = typeof(TRule);
             ConstructorInfo ctor = ruleType.GetConstructor(new[] { typeof(int), typeof(int), typeof(char) });
             IPasswordRule rule = (IPasswordRule) ctor.Invoke(new object[] { first, second, chr });
             return new PasswordWithRule(rule, pass);
