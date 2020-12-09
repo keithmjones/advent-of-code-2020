@@ -27,11 +27,15 @@ namespace AdventOfCode
         public int Solve(IEnumerable<string> input, PassportValidator validator)
         {
             var passport = new Passport();
-            foreach (var line in input) {
-                if (line == "") {
+            foreach (var line in input)
+            {
+                if (line == "")
+                {
                     validator.Validate(passport);
                     passport = new Passport();
-                } else {
+                }
+                else
+                {
                     passport.AddLine(line);
                 }
             }

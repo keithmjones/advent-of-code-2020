@@ -18,7 +18,8 @@ namespace AdventOfCode
 
         public Int64 SolvePart2() => SolvePart2(data, "shiny gold");
 
-        public int SolvePart1(IEnumerable<string> input, string bag) {
+        public int SolvePart1(IEnumerable<string> input, string bag)
+        {
             LuggageProcessor graph = new LuggageProcessor();
             foreach (var line in input)
             {
@@ -27,7 +28,8 @@ namespace AdventOfCode
             return graph.GetBag(bag).Containers.Count();
         }
 
-        public int SolvePart2(IEnumerable<string> input, string bag) {
+        public int SolvePart2(IEnumerable<string> input, string bag)
+        {
             LuggageProcessor graph = new LuggageProcessor();
             foreach (var line in input)
             {

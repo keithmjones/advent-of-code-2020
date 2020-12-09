@@ -35,7 +35,8 @@ namespace AdventOfCode
         public int CalculateNumberOfTreesEncountered(string[] map, int dy, int dx)
         {
             var trees = 0;
-            for (var line = dy; line < map.Length; line += dy) {
+            for (var line = dy; line < map.Length; line += dy)
+            {
                 if (map[line][(dx * line / dy) % map[line].Length] == '#') trees++;
             }
             return trees;

@@ -17,12 +17,14 @@ namespace AdventOfCode
 
         public Int64 SolvePart2() => SolvePart2(data);
 
-        public int SolvePart1(string[] program) {
+        public int SolvePart1(string[] program)
+        {
             (var terminated, var accumulator, var programCounter) = Run(program);
             return accumulator;
         }
 
-        public int SolvePart2(string[] program) {
+        public int SolvePart2(string[] program)
+        {
             var totalJumpInstructions = program.Where(value => value.StartsWith("jmp")).Count();
             for (var i = 0; i < totalJumpInstructions; i++)
             {

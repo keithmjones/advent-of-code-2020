@@ -36,14 +36,16 @@ namespace AdventOfCode
         public Dictionary<Bag, int> Contents = new Dictionary<Bag, int>();
         public List<Bag> Containers = new List<Bag>();
 
-        public Bag(string name) {
+        public Bag(string name)
+        {
             Name = name;
         }
 
         public void AddContents(string contents, LuggageProcessor graph)
         {
             var items = contents.Split(", ");
-            foreach (var item in items) {
+            foreach (var item in items)
+            {
                 var space = item.IndexOf(' ');
                 var end = item.IndexOf(" bag", space);
                 var quantity = Int32.Parse(item.Substring(0, space));
