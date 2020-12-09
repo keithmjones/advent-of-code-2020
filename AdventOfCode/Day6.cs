@@ -14,9 +14,9 @@ namespace AdventOfCode
             data = File.ReadAllLines(inputFile);
         }
 
-        public int SolvePart1() => SolvePart1(data);
+        public Int64 SolvePart1() => SolvePart1(data);
 
-        public int SolvePart2() => SolvePart2(data);
+        public Int64 SolvePart2() => SolvePart2(data);
 
         public int SolvePart1(IEnumerable<string> input) => Records.Collate(input, " ").Select(CountUniqueCharsExcludingSpaces).Sum();
 

@@ -15,13 +15,13 @@ namespace AdventOfCode
             lines = File.ReadAllLines(inputFile);
         }
 
-        public int SolvePart1()
+        public Int64 SolvePart1()
         {
             // Validate passwords based on character counts
             return Solve<CountCharsPasswordRule>(lines);
         }
 
-        public int SolvePart2()
+        public Int64 SolvePart2()
         {
             // Validate passwords based on exactly one character match in given positions
             return Solve<PositionCharsPasswordRule>(lines);

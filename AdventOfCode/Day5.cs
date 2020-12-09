@@ -17,12 +17,12 @@ namespace AdventOfCode
 
         public int GetSeatNumber(string boardingPass) => Convert.ToInt32(boardingPass.Replace('F', '0').Replace('B', '1').Replace('L', '0').Replace('R', '1'), 2);
 
-        public int SolvePart1()
+        public Int64 SolvePart1()
         {
             return SolvePart1(input);
         }
 
-        public int SolvePart2()
+        public Int64 SolvePart2()
         {
             return SolvePart2(input);
         }

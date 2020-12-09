@@ -15,13 +15,13 @@ namespace AdventOfCode
             map = File.ReadAllLines(inputFile);
         }
 
-        public int SolvePart1()
+        public Int64 SolvePart1()
         {
             // Calculate number of trees encountered with slope of Down 1, Right 3
             return CalculateNumberOfTreesEncountered(map, 1, 3);
         }
 
-        public int SolvePart2()
+        public Int64 SolvePart2()
         {
             // Calculate product of number of trees encountered with different slopes
             var trees1x1 = CalculateNumberOfTreesEncountered(map, 1, 1);

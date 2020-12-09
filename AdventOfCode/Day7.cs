@@ -14,9 +14,9 @@ namespace AdventOfCode
             data = File.ReadAllLines(inputFile);
         }
 
-        public int SolvePart1() => SolvePart1(data, "shiny gold");
+        public Int64 SolvePart1() => SolvePart1(data, "shiny gold");
 
-        public int SolvePart2() => SolvePart2(data, "shiny gold");
+        public Int64 SolvePart2() => SolvePart2(data, "shiny gold");
 
         public int SolvePart1(IEnumerable<string> input, string bag) {
             LuggageProcessor graph = new LuggageProcessor();

@@ -14,12 +14,12 @@ namespace AdventOfCode
             input = File.ReadAllLines(inputFile);
         }
 
-        public int SolvePart1()
+        public Int64 SolvePart1()
         {
             return Solve(input, new SimplePassportValidator());
         }
 
-        public int SolvePart2()
+        public Int64 SolvePart2()
         {
             return Solve(input, new ComplexPassportValidator());
         }

@@ -13,9 +13,9 @@ namespace AdventOfCode
             data = File.ReadAllLines(inputFile).ToArray();
         }
 
-        public int SolvePart1() => SolvePart1(data);
+        public Int64 SolvePart1() => SolvePart1(data);
 
-        public int SolvePart2() => SolvePart2(data);
+        public Int64 SolvePart2() => SolvePart2(data);
 
         public int SolvePart1(string[] program) {
             (var terminated, var accumulator, var programCounter) = Run(program);

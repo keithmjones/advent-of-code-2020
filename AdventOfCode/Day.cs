@@ -5,8 +5,8 @@ namespace AdventOfCode
     public interface Day
     {
         void ReadInputFile(string inputFile);
-        int SolvePart1();
-        int SolvePart2();
+        Int64 SolvePart1();
+        Int64 SolvePart2();
     }
 
     public class DayClass
