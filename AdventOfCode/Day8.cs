@@ -17,19 +17,19 @@ namespace AdventOfCode
 
         public int SolvePart2() => SolvePart2(data);
 
-        public int SolvePart1(string[] data) {
-            (var terminated, var accumulator, var programCounter) = Run(data);
+        public int SolvePart1(string[] program) {
+            (var terminated, var accumulator, var programCounter) = Run(program);
             return accumulator;
         }
 
-        public int SolvePart2(string[] data) {
-            var totalJumpInstructions = data.Where(value => value.StartsWith("jmp")).Count();
+        public int SolvePart2(string[] program) {
+            var totalJumpInstructions = program.Where(value => value.StartsWith("jmp")).Count();
             for (var i = 0; i < totalJumpInstructions; i++)
             {
-                (var terminated, var accumulator, var programCounter) = Run(data, i);
+                (var terminated, var accumulator, var programCounter) = Run(program, i);
                 if (terminated)
                 {
-                    Console.Error.WriteLine("T={0} A={1} PC={2} LEN={3} J={4}", terminated, accumulator, programCounter, data.Length, i);
+                    Console.Error.WriteLine("T={0} A={1} PC={2} LEN={3} J={4}", terminated, accumulator, programCounter, program.Length, i);
                     return accumulator;
                 }
             }
@@ -39,7 +39,7 @@ namespace AdventOfCode
 
         public (bool, int, int) Run(string[] program, int jumpInstructionToIgnore = -1)
         {
-            var visited = new bool[data.Length];
+            var visited = new bool[program.Length];
             var terminated = false;
             var accumulator = 0;
             var programCounter = 0;
@@ -47,7 +47,7 @@ namespace AdventOfCode
             do
             {
                 visited[programCounter] = true;
-                string[] instruction = data[programCounter].Split(' ');
+                string[] instruction = program[programCounter].Split(' ');
                 int value = Int32.Parse(instruction[1].Substring(1));
                 if (instruction[1][0] == '-')
                 {
@@ -66,7 +66,7 @@ namespace AdventOfCode
                 {
                     programCounter++;
                 }
-                terminated = programCounter < 0 || programCounter >= data.Length;
+                terminated = programCounter < 0 || programCounter >= program.Length;
             } while (!terminated && !visited[programCounter]);
             return (terminated, accumulator, programCounter);
        }
