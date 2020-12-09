@@ -47,8 +47,9 @@ namespace AdventOfCode.Tests
         [InlineData(
             new Int64[]
             {
-                0
-            }, 0, 0)]
+                35, 20, 15, 25, 47, 40, 62, 55, 65, 95, 102,
+                117, 150, 182, 127, 219, 299, 277, 309, 576
+            }, 5, 62)]
         public void CanSolvePart2(Int64[] ints, int preambleCount, int expected)
         {
             var day9 = new Day9();
