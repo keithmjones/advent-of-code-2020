@@ -61,7 +61,6 @@ namespace AdventOfCode
                     chain = 0;
                     thisChainPermutations = 1;
                 }
-                Console.WriteLine("{0} -> {1} [{2}]: {3} {4} {5}", last, value, difference, chain, thisChainPermutations, totalPermutations);
                 last = value;
             }
             return totalPermutations;
