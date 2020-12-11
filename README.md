@@ -1,6 +1,6 @@
 # Advent of Code 2020
 
-An attempt to solve all 25 puzzles in C#, because where's the fun in doing Advent of Code in a programming language you already know?
+An attempt to solve all 25 [Advent of Code 2020](https://adventofcode.com/) puzzles in C#, because where's the fun in doing Advent of Code in a programming language you already know?
 
 This code was built and run using the following tools:
 
