@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using Xunit;
 
 namespace AdventOfCode.Tests
@@ -17,11 +18,11 @@ namespace AdventOfCode.Tests
             "LLLLLLLLLL",
             "L.LLLLLL.L",
             "L.LLLLL.LL"
-        }, 0)]
+        }, 37)]
         public void CanSolvePart1(string[] room, int expected)
         {
             var day = new Day11();
-            var result = day.SolvePart1(room);
+            var result = day.Solve(room.Select(str => str.ToCharArray()).ToArray(), false);
             Assert.Equal(expected, result);
         }
 
@@ -37,11 +38,11 @@ namespace AdventOfCode.Tests
             "LLLLLLLLLL",
             "L.LLLLLL.L",
             "L.LLLLL.LL"
-        }, 0)]
+        }, 26)]
         public void CanSolvePart2(string[] room, int expected)
         {
             var day = new Day11();
-            var result = day.SolvePart2(room);
+            var result = day.Solve(room.Select(str => str.ToCharArray()).ToArray(), true);
             Assert.Equal(expected, result);
         }
     }
