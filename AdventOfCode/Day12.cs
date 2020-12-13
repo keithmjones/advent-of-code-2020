@@ -36,7 +36,6 @@ namespace AdventOfCode
                     if (action == 'L') dirchange = 4 - dirchange;
                     dir += dirchange;
                     dir %= 4;
-                    Console.WriteLine("{0}{1} -> new dir: {2}", action, magnitude, dir);
                 }
                 else
                 {
@@ -51,13 +50,6 @@ namespace AdventOfCode
                     }
                     x += dx[movedir] * magnitude;
                     y += dy[movedir] * magnitude;
-                    Console.WriteLine("{0}{1} -> new position: {2} {3}, {4} {5}",
-                                      action,
-                                      magnitude,
-                                      x < 0 ? "west" : "east",
-                                      Math.Abs(x),
-                                      y < 0 ? "north" : "south",
-                                      Math.Abs(y));
                 }
             }
             return Math.Abs(x) + Math.Abs(y);
@@ -78,26 +70,17 @@ namespace AdventOfCode
                     var dirchange = magnitude / 90;
                     if (action == 'L') dirchange = 4 - dirchange;
                     (waypoint_x, waypoint_y) = Translate(waypoint_x, waypoint_y, dirchange);
-                    Console.WriteLine("{0}{1} -> new waypoint relative position: ({2}, {3})", action, magnitude, waypoint_x, waypoint_y);
                 }
                 else if (action == 'F')
                 {
                     x += waypoint_x * magnitude;
                     y += waypoint_y * magnitude;
-                    Console.WriteLine("{0}{1} -> new ship position: {2} {3}, {4} {5}",
-                                      action,
-                                      magnitude,
-                                      x < 0 ? "west" : "east",
-                                      Math.Abs(x),
-                                      y < 0 ? "north" : "south",
-                                      Math.Abs(y));
                 }
                 else
                 {
                     var movedir = "NESW".IndexOf(action);
                     waypoint_x += dx[movedir] * magnitude;
                     waypoint_y += dy[movedir] * magnitude;
-                    Console.WriteLine("{0}{1} -> new waypoint relative position: ({2}, {3})", action, magnitude, waypoint_x, waypoint_y);
                 }
             }
             return Math.Abs(x) + Math.Abs(y);
