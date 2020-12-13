@@ -50,14 +50,6 @@ namespace AdventOfCode
             return (multiple, (multiple - time) + largestIndex);
         }
 
-        public (Int64, Int64) FindNextAlt(Int64[] schedule, Int64 largest, Int64 next, Int64 largestIndex)
-        {
-            Int64 multiple = largest * next;
-            Int64 offset = (largest - 1) * next - largestIndex;
-            Console.WriteLine("largest={0} nextLargest={1} multiple={2} offset={3}", largest, next, multiple, offset);
-            return (multiple, offset);
-        }
-
         public Int64 SolvePart2(string[] timetable)
         {
             var schedule = timetable[1].Split(",").Select(value => value == "x" ? "0" : value).Select(value => Int64.Parse(value)).ToArray();
