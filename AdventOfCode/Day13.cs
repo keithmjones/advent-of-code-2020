@@ -28,43 +28,33 @@ namespace AdventOfCode
             return nextBus * WaitTime(timestamp, nextBus);
         }
 
-        public (Int64, Int64) FindNext(Int64[] schedule, Int64 largest, Int64 next, Int64 largestIndex)
+        public (Int64, Int64) FindNext((Int64, Int64) largest, (Int64, Int64) next)
         {
-            var nextIndex = Array.IndexOf(schedule, next);
-            var indexDiff = largestIndex - nextIndex;
-            var diff = (largest - indexDiff) % next;
+            var (largestValue, largestIndex) = largest;
+            var (nextValue, nextIndex) = next;
+            var diff = (largestValue + nextIndex - largestIndex) % nextValue;
             Int64 multiplier = 1;
             while (diff != 0)
             {
                 multiplier++;
-                diff += largest;
-                diff %= next;
+                diff += largestValue;
+                diff %= nextValue;
             }
-            Int64 multiple = largest * next;
-            Int64 time = multiplier * largest;
-            Console.WriteLine("Largest {0} (t+{1}) Next {2} (t+{3}) x={0} m={1} t={2}",
-                            largest, largestIndex, next, nextIndex, multiplier, multiple, time);
-            Console.WriteLine("Large: {0} x {1} - {2} = {3}", largest, multiplier, largestIndex, largest * multiplier - largestIndex);
-            Int64 nlm = (time + nextIndex) / next;
-            Console.WriteLine("Next:  {0} x {1} - {2} = {3}", next, nlm, nextIndex, next * nlm - nextIndex);
-            return (multiple, (multiple - time) + largestIndex);
+            return (largestValue * nextValue, largestValue * (nextValue - multiplier) + largestIndex);
         }
 
         public Int64 SolvePart2(string[] timetable)
         {
-            var schedule = timetable[1].Split(",").Select(value => value == "x" ? "0" : value).Select(value => Int64.Parse(value)).ToArray();
-            var orderedSchedule = schedule.Where(value => value != 0).OrderBy(value => value).Reverse().ToArray();
-            // Find the two largest
-            var largest = orderedSchedule[0];
-            var largestIndex = (Int64) Array.IndexOf(schedule, largest);
-            foreach (var nextLargest in orderedSchedule)
-            {
-                if (nextLargest != largest)
-                {
-                    (largest, largestIndex) = FindNext(schedule, largest, nextLargest, largestIndex);
-                }
-            }
-            return largest - largestIndex;
+            var schedule = timetable[1].Split(",")
+                .Select(value => value == "x" ? "0" : value)
+                .Select(value => Int64.Parse(value))
+                .ToArray();
+            var result = schedule.Where(value => value != 0)
+                .OrderBy(value => value)
+                .Reverse()
+                .Select(value => (value, (Int64) Array.IndexOf(schedule, value)));
+            var (lcm, offset) = result.Aggregate((first, next) => FindNext(first, next));
+            return lcm - offset;
         }
     }
 }
