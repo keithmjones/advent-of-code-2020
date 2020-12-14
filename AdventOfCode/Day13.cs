@@ -6,7 +6,6 @@ namespace AdventOfCode
 {
     public class Day13: Day
     {
-        private Int64 timestamp;
         private string[] data;
 
         public void ReadInputFile(string inputFile)
