@@ -18,10 +18,31 @@ namespace AdventOfCode
 
         public Int64 SolvePart2() => SolvePart2(input);
 
-        public UInt64 Mask(string bits, int defaultValue = 0) => bits
-            .ToCharArray()
-            .Select(value => (UInt64) (value == 'X' ? defaultValue : value & 1))
-            .Aggregate((UInt64) 0L, (first, next) => first << 1 | next);
+        public Int64 SolvePart1(string[] data) => Solve(data, false);
+
+        public Int64 SolvePart2(string[] data) => Solve(data, true);
+
+        public Int64 Solve(string[] data, bool updateAddresses)
+        {
+            UInt64 andMask = UInt64.MaxValue;
+            UInt64 orMask = 0L;
+            UInt64 floatMask = 0L;
+            var memory = new Dictionary<UInt64, UInt64>();
+            foreach (var instruction in data)
+            {
+                if (instruction.StartsWith("mask"))
+                {
+                    (andMask, orMask, floatMask) = UpdateMask(instruction);
+                }
+                else if (instruction.StartsWith("mem"))
+                {
+                    UpdateMemory(memory, instruction, andMask, orMask, floatMask, updateAddresses);
+                }
+            }
+
+            var sum = memory.Aggregate((UInt64) 0L, (first, next) => first + next.Value);
+            return (Int64) sum;
+        }
 
         (UInt64, UInt64, UInt64) UpdateMask(string instruction)
         {
@@ -29,48 +50,15 @@ namespace AdventOfCode
             var andMask = Mask(mask, 1);
             var orMask = Mask(mask);
             var floatMask = andMask ^ orMask;
-            // Console.WriteLine("mask={0} and={1} or={2} float={3}",
-            //     mask,
-            //     Convert.ToString((Int64) andMask, 2),
-            //     Convert.ToString((Int64) orMask, 2),
-            //     Convert.ToString((Int64) floatMask, 2));
             return (andMask, orMask, floatMask);
         }
 
-        public Dictionary<UInt64, UInt64> WriteMemory(Dictionary<UInt64, UInt64> memory, UInt64 address, UInt64 value)
-        {
-            if (memory.ContainsKey(address)) memory.Remove(address);
-            memory.Add(address, value);
-            // Console.WriteLine("address={0} value={1}", address, value);
-            return memory;
-        }
+        public UInt64 Mask(string bits, int defaultValue = 0) => bits
+            .ToCharArray()
+            .Select(value => (UInt64) (value == 'X' ? defaultValue : value & 1))
+            .Aggregate((UInt64) 0L, (first, next) => first << 1 | next);
 
-        List<UInt64> GetPossibleAddresses(
-            UInt64 address,
-            UInt64 floatMask
-        )
-        {
-            List<UInt64> addresses = new List<UInt64>();
-            int shift = 0;
-            UInt64 bit = 0;
-            do
-            {
-                bit = floatMask & (UInt64) (1 << shift);
-                shift++;
-            } while (bit == 0 && shift < 36);
-            if (bit != 0)
-            {
-                addresses.AddRange(GetPossibleAddresses((address | bit) ^ bit, floatMask ^ bit)); // low range
-                addresses.AddRange(GetPossibleAddresses(address | bit, floatMask ^ bit)); // high range
-            }
-            else
-            {
-                addresses.Add(address);
-            }
-            return addresses;
-        }
-
-        Dictionary<UInt64, UInt64> UpdateMemory(
+        void UpdateMemory(
             Dictionary<UInt64, UInt64> memory,
             string instruction,
             UInt64 andMask,
@@ -85,67 +73,49 @@ namespace AdventOfCode
             if (updateAddresses)
             {
                 var maskedAddress = rawAddress | orMask;
-                // Console.WriteLine("address={0} -> ({1} x {2}) value={3}",
-                //     rawAddress,
-                //     maskedAddress,
-                //     Convert.ToString((Int64) floatMask, 2),
-                //     rawValue);
                 foreach (var address in GetPossibleAddresses(maskedAddress, floatMask))
                 {
-                    memory = WriteMemory(memory, address, rawValue);
+                    WriteMemory(memory, address, rawValue);
                 }
             }
             else
             {
                 UInt64 value = rawValue & andMask | orMask;
-                // Console.WriteLine("address={0} value={1} -> {2}", rawAddress, rawValue, value);
-                memory = WriteMemory(memory, rawAddress, value);
+                WriteMemory(memory, rawAddress, value);
             }
-            return memory;
         }
 
-        public Int64 SolvePart1(string[] data)
+        List<UInt64> GetPossibleAddresses(
+            UInt64 address,
+            UInt64 floatMask
+        )
         {
-            UInt64 andMask = UInt64.MaxValue;
-            UInt64 orMask = 0L;
-            UInt64 floatMask = 0L;
-            var memory = new Dictionary<UInt64, UInt64>();
-            foreach (var instruction in data)
+            List<UInt64> addresses = new List<UInt64>();
+            if (floatMask == 0L)
             {
-                if (instruction.StartsWith("mask"))
-                {
-                    (andMask, orMask, floatMask) = UpdateMask(instruction);
-                }
-                else if (instruction.StartsWith("mem"))
-                {
-                    UpdateMemory(memory, instruction, andMask, orMask, floatMask, false);
-                }
+                addresses.Add(address);
             }
-
-            Console.WriteLine("Addresses used: {0}", memory.Values.Count);
-            return memory.Values.Aggregate(0L, (first, next) => first + (Int64) next);
+            else
+            {
+                int shift = 0;
+                UInt64 bit = 0;
+                do
+                {
+                    bit = floatMask & (UInt64) (1L << shift);
+                    shift++;
+                } while (bit == 0 && shift < 36);
+                var lowAddress = address & ~bit;
+                var nextFloatMask = floatMask & ~bit;
+                addresses.AddRange(GetPossibleAddresses(lowAddress, nextFloatMask)); // low range
+                addresses.AddRange(GetPossibleAddresses(lowAddress ^ bit, nextFloatMask)); // high range
+            }
+            return addresses;
         }
 
-        public Int64 SolvePart2(string[] data)
+        public void WriteMemory(Dictionary<UInt64, UInt64> memory, UInt64 address, UInt64 value)
         {
-            UInt64 andMask = UInt64.MaxValue;
-            UInt64 orMask = 0L;
-            UInt64 floatMask = 0L;
-            var memory = new Dictionary<UInt64, UInt64>();
-            foreach (var instruction in data)
-            {
-                if (instruction.StartsWith("mask"))
-                {
-                    (andMask, orMask, floatMask) = UpdateMask(instruction);
-                }
-                else if (instruction.StartsWith("mem"))
-                {
-                    UpdateMemory(memory, instruction, andMask, orMask, floatMask, true);
-                }
-            }
-
-            Console.WriteLine("Addresses used: {0}", memory.Values.Count);
-            return memory.Values.Aggregate(0L, (first, next) => first + (Int64) next);
+            memory.Remove(address);
+            memory.Add(address, value);
         }
     }
 }
