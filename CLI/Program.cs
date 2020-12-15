@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
 using AdventOfCode;
 
@@ -37,9 +38,18 @@ namespace CLI
             else
             {
                 day.ReadInputFile(path);
-                Console.WriteLine("Part 1: {0}", day.SolvePart1());
-                Console.WriteLine("Part 2: {0}", day.SolvePart2());
+                SolvePart(1, day.SolvePart1);
+                SolvePart(2, day.SolvePart2);
             }
+        }
+
+        static void SolvePart(int part, Func<Int64> partFn)
+        {
+            Stopwatch stopWatch = new Stopwatch();
+            stopWatch.Start();
+            Int64 result = partFn();
+            stopWatch.Stop();
+            Console.WriteLine("Part {0}: {1} in {2} ms", part, result, stopWatch.ElapsedMilliseconds);
         }
     }
 }

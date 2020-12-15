@@ -14,27 +14,11 @@ namespace AdventOfCode
             input = File.ReadAllLines(inputFile);
         }
 
-        public Int64 SolvePart1() => SolvePart1(input);
+        public Int64 SolvePart1() => Solve(input, 2020);
 
-        public Int64 SolvePart2() => SolvePart2(input);
+        public Int64 SolvePart2() => Solve(input, 30000000);
 
-        public Int64 SolvePart1(string[] data)
-        {
-            List<Int64> ints = data[0].Split(",").Select(value => Int64.Parse(value)).ToList();
-            while (ints.Count < 2020)
-            {
-                Int64 last = ints.Last();
-                Int64 previous = ints.FindLastIndex(
-                    ints.Count - 2,
-                    value => value == last
-                );
-                Int64 difference = previous < 0 ? 0 : ints.Count - previous - 1;
-                ints.Add(difference);
-            }
-            return ints.Last();
-        }
-
-        public Int64 SolvePart2(string[] data)
+        public Int64 Solve(string[] data, Int64 count)
         {
             Int64[] startingNumbers = data[0].Split(",").Select(value => Int64.Parse(value)).ToArray();
             var ints = new Dictionary<Int64, Int64>();
@@ -43,7 +27,7 @@ namespace AdventOfCode
                 ints[startingNumbers[index]] = index;
             }
             var last = 0L;
-            for (Int64 index = startingNumbers.Length; index < 30000000 - 1; index++)
+            for (Int64 index = startingNumbers.Length; index < count - 1; index++)
             {
                 Int64 next = ints.ContainsKey(last) ? index - ints[last] : 0;
                 ints[last] = index;
