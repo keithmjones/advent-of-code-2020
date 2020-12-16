@@ -82,7 +82,6 @@ namespace AdventOfCode
                     }
                     if (valid)
                     {
-                        Console.WriteLine("Field #{0} is valid for '{1}'", index, rule.Key);
                         fields[index].Add(rule.Key);
                     }
                 }
@@ -94,12 +93,10 @@ namespace AdventOfCode
                 var smallestField = fields.Where(field => field.Value.Count == minCount).First();
                 if (smallestField.Value.Count > 1)
                 {
-                    Console.WriteLine("Houston we have a problem");
                     break;
                 }
                 string fieldName = smallestField.Value[0];
                 matchedFields[fieldName] = smallestField.Key;
-                Console.WriteLine("Matched field #{0} to '{1}'", smallestField.Key, fieldName);
                 fields.Remove(smallestField.Key);
                 foreach (var field in fields)
                 {
