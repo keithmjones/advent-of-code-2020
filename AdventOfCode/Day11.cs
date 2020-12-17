@@ -38,6 +38,8 @@ namespace AdventOfCode
             // Pass 1: work out what cells to update
             var rows = room.Length;
             var columns = room[0].Length;
+            var changedCells = 0;
+            var occupiedSeats = 0;
             for (var row = 0; row < rows; row++)
             {
                 for (var column = 0; column < columns; column++)
@@ -51,7 +53,8 @@ namespace AdventOfCode
                             var x = column;
                             var y = row;
                             var edge = false;
-                            do {
+                            do
+                            {
                                 x += dx[dir];
                                 y += dy[dir];
                                 edge = x < 0 || x >= columns || y < 0 || y >= rows;
@@ -64,17 +67,25 @@ namespace AdventOfCode
                         if (cell == 'L' && visibleOccupiedSeats == 0)
                         {
                             room[row][column] = '*'; // seat will become occupied
+                            occupiedSeats++;
+                            changedCells++;
                         }
-                        if (cell == '#' && visibleOccupiedSeats >= (part2 ? 5 : 4))
+                        else if (cell == '#')
                         {
-                            room[row][column] = 'x'; // seat will become empty
+                            if (visibleOccupiedSeats >= (part2 ? 5 : 4))
+                            {
+                                room[row][column] = 'x'; // seat will become empty
+                                changedCells++;
+                            }
+                            else
+                            {
+                                occupiedSeats++;
+                            }
                         }
                     }
                 }
             }
             // Pass 2: perform update
-            var changedCells = 0;
-            var occupiedSeats = 0;
             for (var row = 0; row < rows; row++)
             {
                 for (var column = 0; column < columns; column++)
@@ -83,17 +94,10 @@ namespace AdventOfCode
                     if (cell == '*')
                     {
                         room[row][column] = '#';
-                        occupiedSeats++;
-                        changedCells++;
                     }
                     else if (cell == 'x')
                     {
                         room[row][column] = 'L';
-                        changedCells++;
-                    }
-                    else if (cell == '#')
-                    {
-                        occupiedSeats++;
                     }
                 }
             }
@@ -102,9 +106,11 @@ namespace AdventOfCode
 
         public void reset(char[][] room)
         {
-            for (var row = 0; row < room.Length; row++)
+            var rows = room.Length;
+            var columns = room[0].Length;
+            for (var row = 0; row < rows; row++)
             {
-                for (var column = 0; column < room[0].Length; column++)
+                for (var column = 0; column < columns; column++)
                 {
                     if (room[row][column] == '#')
                     {
