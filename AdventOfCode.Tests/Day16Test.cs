@@ -26,14 +26,5 @@ namespace AdventOfCode.Tests
             var result = day.SolvePart1(data);
             Assert.Equal(expected, result);
         }
-
-        [Theory]
-        [InlineData(new string[] {}, 0)]
-        public void CanSolvePart2(string[] data, int expected)
-        {
-            var day = new Day16();
-            var result = day.SolvePart2(data);
-            Assert.Equal(expected, result);
-        }
     }
 }
