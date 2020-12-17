@@ -14,7 +14,7 @@ namespace AdventOfCode.Tests
         public void CanSolvePart1(string[] data, int expected)
         {
             var day = new Day17();
-            var result = day.SolvePart1(data);
+            var result = day.Solve(data, 6, 1);
             Assert.Equal(expected, result);
         }
 
@@ -26,8 +26,8 @@ namespace AdventOfCode.Tests
         }, 848)]
         public void CanSolvePart2(string[] data, int expected)
         {
-            var day = new DaySample();
-            var result = day.SolvePart2(data);
+            var day = new Day17();
+            var result = day.Solve(data, 6, 13);
             Assert.Equal(expected, result);
         }
     }
