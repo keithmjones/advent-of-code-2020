@@ -10,6 +10,7 @@ This code was built and run using the following tools:
 ## Commands used to create the projects
 
 ```
+dotnet new sln
 dotnet new console -o CLI
 dotnet sln add CLI/CLI.csproj
 dotnet new classlib -o AdventOfCode
